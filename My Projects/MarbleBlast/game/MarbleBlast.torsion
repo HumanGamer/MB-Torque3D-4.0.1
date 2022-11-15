@@ -1,0 +1,36 @@
+<TorsionProject>
+<Name>MarbleBlast</Name>
+<WorkingDir/>
+<EntryScript>main.tscript</EntryScript>
+<DebugHook>dbgSetParameters( #port#, "#password#", true );</DebugHook>
+<Mods>
+<Folder>core</Folder>
+<Folder>data</Folder>
+<Folder>tools</Folder>
+</Mods>
+<ScannerExts>tscript; gui; taml; module;</ScannerExts>
+<Configs>
+<Config>
+<Name>Release</Name>
+<Executable>MarbleBlast.exe</Executable>
+<Arguments/>
+<HasExports>true</HasExports>
+<Precompile>true</Precompile>
+<InjectDebugger>true</InjectDebugger>
+<UseSetModPaths>false</UseSetModPaths>
+</Config>
+<Config>
+<Name>Debug</Name>
+<Executable>MarbleBlast_Debug.exe</Executable>
+<Arguments/>
+<HasExports>true</HasExports>
+<Precompile>true</Precompile>
+<InjectDebugger>true</InjectDebugger>
+<UseSetModPaths>false</UseSetModPaths>
+</Config>
+</Configs>
+<SearchURL/>
+<SearchProduct>MarbleBlast</SearchProduct>
+<SearchVersion>HEAD</SearchVersion>
+<ExecModifiedScripts>true</ExecModifiedScripts>
+</TorsionProject>
