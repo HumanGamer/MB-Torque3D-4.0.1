@@ -97,7 +97,8 @@ function panDown( %val )
 function getMouseAdjustAmount(%val)
 {
    // based on a default camera FOV of 90'
-   return(%val * ($cameraFov / 90) * 0.01) * $pref::Input::LinkMouseSensitivity;
+   //return(%val * ($cameraFov / 90) * 0.01) * $pref::Input::LinkMouseSensitivity;
+   return(%val * ($cameraFov / 90)) * 0.005;//$pref::Input::LinkMouseSensitivity;
 }
 
 function getGamepadAdjustAmount(%val)
@@ -130,6 +131,26 @@ function pitch(%val)
    }
 
    $mvPitch += %pitchAdj;
+}
+
+function mouseYaw(%val)
+{
+   if( $pref::invertXCamera )
+      %val *= -1.0;
+
+   $mvDeviceIsKeyboardMouse = true;
+
+   $mvYaw += getMouseAdjustAmount(%val);
+}
+
+function mousePitch(%val)
+{
+   if( $pref::invertYCamera )
+      %val *= -1.0;
+
+   $mvDeviceIsKeyboardMouse = true;
+
+   $mvPitch += getMouseAdjustAmount(%val);
 }
 
 function jump(%val)

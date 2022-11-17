@@ -90,9 +90,25 @@ void ConcretePolyList::begin(BaseMatInstance* material,U32 surfaceKey)
    Poly& poly = mPolyList.last();
    poly.object = mCurrObject;
    poly.material = material;
+#ifdef MARBLE_BLAST
+   poly.materialId = 0;
+#endif
    poly.vertexStart = mIndexList.size();
    poly.surfaceKey = surfaceKey;
 }
+
+#ifdef MARBLE_BLAST
+void ConcretePolyList::begin(BaseMatInstance* material, U32 materialId,U32 surfaceKey)
+{
+    mPolyList.increment();
+    Poly& poly = mPolyList.last();
+    poly.object = mCurrObject;
+    poly.material = material;
+    poly.materialId = materialId;
+    poly.vertexStart = mIndexList.size();
+    poly.surfaceKey = surfaceKey;
+}
+#endif
 
 
 //----------------------------------------------------------------------------

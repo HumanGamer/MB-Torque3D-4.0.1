@@ -667,7 +667,13 @@ public:
    DECLARE_CALLBACK( void, onDisabled, ( ShapeBase* obj, const char* lastState ) );
    DECLARE_CALLBACK( void, onDestroyed, ( ShapeBase* obj, const char* lastState ) );
    DECLARE_CALLBACK( void, onImpact, ( ShapeBase* obj, SceneObject* collObj, VectorF vec, F32 len ) );
+
+#ifdef MARBLE_BLAST
+    DECLARE_CALLBACK( void, onCollision, ( ShapeBase* obj, SceneObject* collObj, VectorF vec, F32 len, const char* matName ) );
+    DECLARE_CALLBACK( void, onClientCollision, ( ShapeBase* obj, SceneObject* collObj, VectorF vec, F32 len, const char* matName ) );
+#else
    DECLARE_CALLBACK( void, onCollision, ( ShapeBase* obj, SceneObject* collObj, VectorF vec, F32 len ) );
+#endif
    DECLARE_CALLBACK( void, onDamage, ( ShapeBase* obj, F32 delta ) );
    DECLARE_CALLBACK( void, onTrigger, ( ShapeBase* obj, S32 index, bool state ) );
    DECLARE_CALLBACK( void, onEndSequence, (ShapeBase* obj, S32 slot, const char* name));
@@ -917,6 +923,11 @@ protected:
 
    /// @}
 
+#ifdef MARBLE_BLAST
+    bool mAnimateScale;
+    Point3F mRenderScale;
+#endif
+
    /// @name Physical Properties
    ///
    /// Properties for the current object, which are calculated
@@ -957,6 +968,9 @@ protected:
       U32 objectNumber;
       SimTime expireTime;
       VectorF vector;
+#ifdef MARBLE_BLAST
+      const Material *material;
+#endif
    };
    CollisionTimeout* mTimeoutList;
    static CollisionTimeout* sFreeTimeoutList;
@@ -965,13 +979,31 @@ protected:
    /// @see onCollision
    void notifyCollision();
 
-   /// Add a collision to the queue of collisions waiting to be handled @see onCollision
-   /// @param   object   Object collision occurs with
-   /// @param   vec      Vector along which collision occurs
-   void queueCollision( SceneObject *object, const VectorF &vec);
+#ifdef MARBLE_BLAST
+    /// Add a collision to the queue of collisions waiting to be handled @see onCollision
+    /// @param   object    Object collision occurs with
+    /// @param   vec       Vector along which collision occurs
+    /// @param   surfaceId Id of the collided surface
+    void queueCollision(SceneObject* object, const VectorF& vec, const U32 surfaceId = 0);
+#else
+    /// Add a collision to the queue of collisions waiting to be handled @see onCollision
+    /// @param   object   Object collision occurs with
+    /// @param   vec      Vector along which collision occurs
+    void queueCollision(SceneObject* object, const VectorF& vec);
+#endif
 
-   /// @see SceneObject
-   virtual void onCollision( SceneObject *object, const VectorF &vec );
+#ifdef MARBLE_BLAST
+    /// This gets called when an object collides with this object
+    /// @param   object   Object colliding with this object
+    /// @param   vec   Vector along which collision occured
+    /// @param   mat   Material that was collided with
+    virtual void onCollision(SceneObject* object, VectorF vec, const Material* mat);
+#else
+    /// This gets called when an object collides with this object
+    /// @param   object   Object colliding with this object
+    /// @param   vec   Vector along which collision occured
+    virtual void onCollision(SceneObject* object, VectorF vec);
+#endif
 
    /// @}
  protected:
@@ -1787,6 +1819,10 @@ public:
 
    /// Returns the renderable shape of this object
    TSShape const* getShape();
+
+#ifdef MARBLE_BLAST
+    virtual Material* getMaterial(U32 material);
+#endif
 
    /// @see SceneObject
    virtual void prepRenderImage( SceneRenderState* state );

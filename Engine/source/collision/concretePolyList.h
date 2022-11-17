@@ -45,6 +45,9 @@ class ConcretePolyList : public AbstractPolyList
       U32 vertexStart;
       U32 vertexCount;
       U32 surfaceKey;
+#ifdef MARBLE_BLAST
+      U32 materialId;
+#endif
 
       Poly()
       {
@@ -76,6 +79,10 @@ class ConcretePolyList : public AbstractPolyList
    U32  addPoint(const Point3F& p);
    U32  addPlane(const PlaneF& plane);
    void begin(BaseMatInstance* material,U32 surfaceKey);
+
+#ifdef MARBLE_BLAST
+   void begin(BaseMatInstance* material, U32 materialId,U32 surfaceKey);
+#endif
    void plane(U32 v1,U32 v2,U32 v3);
    void plane(const PlaneF& p);
    void plane(const U32 index);

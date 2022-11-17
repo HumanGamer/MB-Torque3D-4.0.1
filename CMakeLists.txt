@@ -7,6 +7,7 @@ set(TORQUE_APP_NAME "" CACHE STRING "the app name")
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/temp" CACHE PATH "default install path" FORCE )
 
 set(TORQUE_APP_NAME "MarbleBlast")
+add_definitions(-DMARBLE_BLAST)
 
 if("${TORQUE_APP_NAME}" STREQUAL "")
 	message(FATAL_ERROR "Please set TORQUE_APP_NAME first")

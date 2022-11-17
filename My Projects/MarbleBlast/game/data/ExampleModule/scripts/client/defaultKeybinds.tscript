@@ -79,20 +79,20 @@ ExampleMoveMap.bindCmd(keyboard, "escape", "", "Canvas.pushDialog(PauseMenu);");
 //------------------------------------------------------------------------------
 ExampleMoveMap.bind( keyboard, a, moveleft );
 ExampleMoveMap.bind( keyboard, d, moveright );
-ExampleMoveMap.bind( keyboard, left, moveleft );
-ExampleMoveMap.bind( keyboard, right, moveright );
+//ExampleMoveMap.bind( keyboard, left, moveleft );
+//ExampleMoveMap.bind( keyboard, right, moveright );
 
 ExampleMoveMap.bind( keyboard, w, moveforward );
 ExampleMoveMap.bind( keyboard, s, movebackward );
-ExampleMoveMap.bind( keyboard, up, moveforward );
-ExampleMoveMap.bind( keyboard, down, movebackward );
+//ExampleMoveMap.bind( keyboard, up, moveforward );
+//ExampleMoveMap.bind( keyboard, down, movebackward );
 
 ExampleMoveMap.bind( keyboard, e, moveup );
 ExampleMoveMap.bind( keyboard, c, movedown );
 
 ExampleMoveMap.bind( keyboard, space, jump );
-ExampleMoveMap.bind( mouse, xaxis, yaw );
-ExampleMoveMap.bind( mouse, yaxis, pitch );
+ExampleMoveMap.bind( mouse, xaxis, mouseYaw );
+ExampleMoveMap.bind( mouse, yaxis, mousePitch );
 
 ExampleMoveMap.bind( gamepad, thumbrx, "D", "-0.23 0.23", gamepadYaw );
 ExampleMoveMap.bind( gamepad, thumbry, "D", "-0.23 0.23", gamepadPitch );

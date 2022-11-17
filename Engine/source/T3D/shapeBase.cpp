@@ -70,6 +70,10 @@
 #include "T3D/accumulationVolume.h"
 #include "console/persistenceManager.h"
 
+#ifdef MARBLE_BLAST
+#include "T3D/marble/marble.h"
+#endif
+
 IMPLEMENT_CO_DATABLOCK_V1(ShapeBaseData);
 
 ConsoleDocClass( ShapeBaseData,
@@ -101,12 +105,29 @@ IMPLEMENT_CALLBACK( ShapeBaseData, onImpact, void, ( ShapeBase* obj, SceneObject
    "@param vec Collision impact vector\n"
    "@param len Length of the impact vector\n" );
 
+#ifdef MARBLE_BLAST
+IMPLEMENT_CALLBACK( ShapeBaseData, onCollision, void, ( ShapeBase* obj, SceneObject *collObj, VectorF vec, F32 len, const char* matName ), ( obj, collObj, vec, len, matName ),
+                    "@brief Called when we collide with another object.\n\n"
+                    "@param obj The ShapeBase object\n"
+                    "@param collObj The object we collided with\n"
+                    "@param vec Collision impact vector\n"
+                    "@param len Length of the impact vector\n"
+                    "@param matName Name of the material we collided with\n" );
+IMPLEMENT_CALLBACK( ShapeBaseData, onClientCollision, void, ( ShapeBase* obj, SceneObject *collObj, VectorF vec, F32 len, const char* matName ), ( obj, collObj, vec, len, matName ),
+                    "@brief Called when we collide with another object.\n\n"
+                    "@param obj The ShapeBase object\n"
+                    "@param collObj The object we collided with\n"
+                    "@param vec Collision impact vector\n"
+                    "@param len Length of the impact vector\n"
+                    "@param matName Name of the material we collided with\n" );
+#else
 IMPLEMENT_CALLBACK( ShapeBaseData, onCollision, void, ( ShapeBase* obj, SceneObject *collObj, VectorF vec, F32 len ), ( obj, collObj, vec, len ),
    "@brief Called when we collide with another object.\n\n"
    "@param obj The ShapeBase object\n"
    "@param collObj The object we collided with\n"
    "@param vec Collision impact vector\n"
    "@param len Length of the impact vector\n" );
+#endif
 
 IMPLEMENT_CALLBACK( ShapeBaseData, onDamage, void, ( ShapeBase* obj, F32 delta ), ( obj, delta ),
    "@brief Called when the object is damaged.\n\n"
@@ -1031,6 +1052,10 @@ ShapeBase::ShapeBase()
    saved_seq_id = -1;
    saved_pos = 0.0f;
    saved_rate = 1.0f;
+
+#ifdef MARBLE_BLAST
+    mRenderScale = Point3F(1.0f, 1.0f, 1.0f);
+#endif
 }
 
 
@@ -1553,6 +1578,23 @@ void ShapeBase::advanceTime(F32 dt)
             mFadeVal = 1 - mFadeVal;
       }
    }
+
+#ifdef MARBLE_BLAST
+    if (mAnimateScale)
+    {
+        float scale = mDot(mRenderScale, mRenderScale);
+        if (scale <= mDot(mObjScale, mObjScale))
+            scale = 0.1f;
+        else
+            scale = 0.4f;
+
+        scale = dt / scale * 2.302585124969482;
+        scale = 1.0 / (scale * (scale * 0.2349999994039536 * scale) + scale + 1.0 + 0.4799999892711639 * scale * scale);
+        mRenderScale *= scale;
+        scale = 1.0 - scale;
+        mRenderScale += scale * mObjScale;
+    }
+#endif
 
    if (isMounted()) {
       MatrixF mat;
@@ -2738,7 +2780,13 @@ void ShapeBase::prepBatchRender(SceneRenderState* state, S32 mountedImageIndex )
    else
    {
       MatrixF mat = getRenderTransform();
-      mat.scale( mObjScale );
+#ifdef MARBLE_BLAST
+       if (!mAnimateScale)
+            mRenderScale = mObjScale;
+        mat.scale(mRenderScale);
+#else
+       mat.scale(mObjScale);
+#endif
       GFX->setWorldMatrix( mat );
 
       if ( state->isDiffusePass() && mCubeReflector.isEnabled() && mCubeReflector.getOcclusionQuery() )
@@ -2767,6 +2815,20 @@ void ShapeBase::renderMountedImage( U32 imageSlot, TSRenderState &rstate, SceneR
 
    MatrixF mat;
    getRenderImageTransform(imageSlot, &mat, rstate.getSceneState()->isShadowPass());
+
+#ifdef MARBLE_BLAST
+    if ((mTypeMask & PlayerObjectType) != 0)
+            {
+                Point3F pos(mat[3], mat[7], mat[11]);
+                // Matt: why in the heck did they do it like this...
+                ((Marble*)this)->mGravityRenderFrame.setMatrix(&mat);
+                mat[3] = pos.x;
+                mat[7] = pos.y;
+                mat[11] = pos.z;
+                mat.scale(mRenderScale);
+            }
+#endif
+
    GFX->setWorldMatrix( mat );
 
    MountedImage& image = mMountedImageList[imageSlot];
@@ -2954,7 +3016,11 @@ void ShapeBase::buildConvex(const Box3F& box, Convex* convex)
 
 //----------------------------------------------------------------------------
 
+#ifdef MARBLE_BLAST
+void ShapeBase::queueCollision(SceneObject* obj, const VectorF& vec, const U32 surfaceId)
+#else
 void ShapeBase::queueCollision( SceneObject *obj, const VectorF &vec)
+#endif
 {
    // Add object to list of collisions.
    SimTime time = Sim::getCurrentTime();
@@ -2962,6 +3028,11 @@ void ShapeBase::queueCollision( SceneObject *obj, const VectorF &vec)
 
    CollisionTimeout** adr = &mTimeoutList;
    CollisionTimeout* ptr = mTimeoutList;
+
+#ifdef MARBLE_BLAST
+    const Material* mat = obj->getMaterial(surfaceId);
+#endif
+
    while (ptr) {
       if (ptr->objectNumber == num) {
          if (ptr->expireTime < time) {
@@ -3000,6 +3071,9 @@ void ShapeBase::queueCollision( SceneObject *obj, const VectorF &vec)
    ptr->object = obj;
    ptr->objectNumber = obj->getId();
    ptr->vector = vec;
+#ifdef MARBLE_BLAST
+    ptr->material = mat;
+#endif
    ptr->expireTime = time + CollisionTimeoutValue;
    ptr->next = mTimeoutList;
 
@@ -3017,7 +3091,11 @@ void ShapeBase::notifyCollision()
       {
          SimObjectPtr<SceneObject> safePtr(ptr->object);
          SimObjectPtr<ShapeBase> safeThis(this);
+#ifdef MARBLE_BLAST
+         onCollision(this, ptr->vector, ptr->material);
+#else
          onCollision(ptr->object,ptr->vector);
+#endif
          ptr->object = 0;
 
          if(!bool(safeThis))
@@ -3032,11 +3110,23 @@ void ShapeBase::notifyCollision()
    }
 }
 
+#ifdef MARBLE_BLAST
+void ShapeBase::onCollision(SceneObject* object, VectorF vec, const Material* mat)
+{
+    const char* matName = mat ? mat->getName() : "DefaultMaterial";
+
+    if (isGhost())
+        mDataBlock->onClientCollision_callback( this, object, vec, vec.len(), matName );
+    else
+        mDataBlock->onCollision_callback( this, object, vec, vec.len(), matName );
+}
+#else
 void ShapeBase::onCollision( SceneObject *object, const VectorF &vec )
 {
    if (!isGhost())
       mDataBlock->onCollision_callback( this, object, vec, vec.len() );
 }
+#endif
 
 //--------------------------------------------------------------------------
 bool ShapeBase::pointInWater( Point3F &point )
@@ -3688,6 +3778,17 @@ void ShapeBase::setSkinName(const char* name)
          mSkinNameHandle = NetStringHandle();
       setMaskBits(SkinMask);
    }
+}
+
+Material* ShapeBase::getMaterial(U32 material)
+{
+    MaterialList* list;
+    if (mShapeInstance && ((list = mShapeInstance->getMaterialList()) != NULL || (list = mShapeInstance->getShape()->materialList) != NULL))
+    {
+        return list->getMappedMaterial(material);
+    }
+
+    return NULL;
 }
 
 //----------------------------------------------------------------------------

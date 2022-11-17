@@ -449,7 +449,20 @@ void SceneObject::setScale( const VectorF &scale )
       return;
 
    mObjScale = scale;
+
+#ifdef MARBLE_BLAST
+    resetWorldBox();
+
+    if (mSceneManager != NULL && mNumCurrZones != 0) {
+        // TODO: Is this needed?
+        //mSceneManager->getZoneManager()->_zoneRemove(this);
+        //mSceneManager->getZoneManager()->_zoneInsert(this);
+        if (getContainer())
+            getContainer()->checkBins(this);
+    }
+#else
    setTransform(MatrixF(mObjToWorld));
+#endif
 
    // Make sure that any subclasses of me get a chance to react to the
    // scale being changed.

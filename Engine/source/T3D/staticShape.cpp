@@ -99,6 +99,18 @@ StaticShapeData::StaticShapeData()
    shadowEnable = true;
 
    noIndividualDamage = false;
+
+#ifdef MARBLE_BLAST
+    for (S32 i = 0; i < MAX_FORCE_TYPES; i++)
+    {
+        forceType[i] = NoForce;
+        forceRadius[i] = 1.0f;
+        forceStrength[i] = 1.0f;
+        forceArc[i] = 0.7f;
+        forceNode[i] = 0;
+        forceVector[i].set(0.0f, 0.0f, 0.0f);
+    }
+#endif
 }
 
 StaticShapeData::StaticShapeData(const StaticShapeData& other, bool temp_clone) : ShapeBaseData(other, temp_clone)
@@ -109,6 +121,15 @@ StaticShapeData::StaticShapeData(const StaticShapeData& other, bool temp_clone) 
    energyPerDamagePoint = other.energyPerDamagePoint; // -- uninitialized, unused
 }
 
+#ifdef MARBLE_BLAST
+ImplementEnumType(ForceStates, "")
+                { StaticShapeData::ForceType::NoForce,        "NoForce",   ""},
+                { StaticShapeData::ForceType::ForceSpherical, "Spherical", ""},
+                { StaticShapeData::ForceType::ForceField,     "Field",     ""},
+                { StaticShapeData::ForceType::ForceCone,      "Cone",      ""},
+EndImplementEnumType;
+#endif
+
 void StaticShapeData::initPersistFields()
 {
    addField("noIndividualDamage",   TypeBool, Offset(noIndividualDamage,   StaticShapeData), "Deprecated\n\n @internal");
@@ -116,6 +137,15 @@ void StaticShapeData::initPersistFields()
       "@brief An integer value which, if speficied, is added to the value retured by getType().\n\n"
       "This allows you to extend the type mask for a StaticShape that uses this datablock.  Type masks "
       "are used for container queries, etc.");
+
+#ifdef MARBLE_BLAST
+    addField("forceType", TYPEID<ForceStates>(), Offset(forceType, StaticShapeData), MAX_FORCE_TYPES);
+    addField("forceNode", TypeS32, Offset(forceNode, StaticShapeData), MAX_FORCE_TYPES);
+    addField("forceVector", TypePoint3F, Offset(forceVector, StaticShapeData), MAX_FORCE_TYPES);
+    addField("forceRadius", TypeF32, Offset(forceRadius, StaticShapeData), MAX_FORCE_TYPES);
+    addField("forceStrength", TypeF32, Offset(forceStrength, StaticShapeData), MAX_FORCE_TYPES);
+    addField("forceArc", TypeF32, Offset(forceArc, StaticShapeData), MAX_FORCE_TYPES);
+#endif
 
    Parent::initPersistFields();
 }
@@ -221,6 +251,17 @@ bool StaticShape::onNewDataBlock(GameBaseData* dptr, bool reload)
    if (!mDataBlock || !Parent::onNewDataBlock(dptr, reload))
       return false;
 
+#ifdef MARBLE_BLAST
+    for (S32 i = 0; i < StaticShapeData::MAX_FORCE_TYPES; i++)
+    {
+        if (mDataBlock->forceType[i] != StaticShapeData::NoForce)
+        {
+            mTypeMask |= ForceObjectType;
+            break;
+        }
+    }
+#endif
+
    scriptOnNewDataBlock();
    return true;
 }
@@ -318,6 +359,76 @@ void StaticShape::unpackUpdate(NetConnection *connection, BitStream *bstream)
    }
 }
 
+#ifdef MARBLE_BLAST
+bool StaticShape::getForce(Point3F& pos, Point3F* force)
+{
+    // TODO: Cleanup Decompile
+
+    if (mDataBlock != NULL && (mTypeMask & ForceObjectType) != 0 && mPowered)
+    {
+        F32 strength;
+        F32 dot;
+        bool retval = false;
+        S32 i = 0;
+        Point3F posVec;
+        while (true)
+        {
+            if (mDataBlock->forceType[i] == StaticShapeData::NoForce)
+                goto LABEL_19;
+
+            MatrixF node;
+            getMountTransform(mDataBlock->forceNode[i], MatrixF::Identity, &node);
+
+            Point3F nodeVec;
+            if (mDataBlock->forceVector[i].len() == 0.0f)
+                node.getColumn(1, &nodeVec);
+            else
+                nodeVec = mDataBlock->forceVector[i];
+
+            posVec = pos - node.getPosition();
+            dot = posVec.len();
+
+            if (mDataBlock->forceRadius[i] < dot)
+                goto LABEL_19;
+
+            StaticShapeData::ForceType forceType = mDataBlock->forceType[i];
+            strength = (1.0f - dot / mDataBlock->forceRadius[i]) * mDataBlock->forceStrength[i];
+
+            if (forceType == StaticShapeData::ForceSpherical)
+                break;
+
+            if (forceType == StaticShapeData::ForceField)
+            {
+                *force += nodeVec * strength;
+                goto LABEL_17;
+            }
+
+            if (forceType != StaticShapeData::ForceCone)
+                goto LABEL_19;
+
+            posVec *= 1.0f / dot;
+
+            F32 newDot = mDot(nodeVec, posVec);
+            F32 arc = mDataBlock->forceArc[i];
+            if (arc >= newDot)
+                goto LABEL_19;
+
+            *force += ((posVec * strength) * (newDot - arc)) / (1.0f - arc);
+            LABEL_17:
+            retval = true;
+            LABEL_19:
+            i++;
+            if (i >= 4)
+                return retval;
+        }
+
+        dot = strength / dot;
+        *force += posVec * dot;
+        goto LABEL_17;
+    }
+    return false;
+}
+#endif
 
 //----------------------------------------------------------------------------
 // This appears to be legacy T2 stuff

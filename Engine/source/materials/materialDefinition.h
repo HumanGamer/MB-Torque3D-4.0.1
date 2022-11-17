@@ -376,6 +376,11 @@ public:
    DECLARE_ASSET_SETGET(Material, CustomImpactSound);
 
    F32 mFriction;                   ///< Friction coefficient when moving along surface.
+#ifdef MARBLE_BLAST
+    F32 mRestitution;
+    F32 mForce;
+    S32 mSound;
+#endif
 
    F32 mDirectSoundOcclusion;       ///< Amount of volume occlusion on direct sounds.
    F32 mReverbSoundOcclusion;       ///< Amount of volume occlusion on reverb sounds.

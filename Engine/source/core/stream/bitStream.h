@@ -180,6 +180,17 @@ public:
    void writeCompressedPoint(const Point3F& p,F32 scale = 0.001f);
    void readCompressedPoint(Point3F* p,F32 scale = 0.001f);
 
+#ifdef MARBLE_BLAST
+    U32 writeCompressedPointRP(const Point3F& p, U32 numDists, const F32* dists, F32 err);
+    U32 readCompressedPointRP(Point3F* p, U32 numDists, const F32* dists, F32 err);
+    // writes a normalized vector using alternate method
+    void writeNormalVector(const Point3F& vec, S32 angleBitCount, S32 zBitCount);
+    void readNormalVector(Point3F* vec, S32 angleBitCount, S32 zBitCount);
+
+    void readVector(Point3F* vec, F32 minMag, F32 maxMag, S32 magBits, S32 angleBits, S32 zBits);
+    void writeVector(Point3F vec, F32 minMag, F32 maxMag, S32 magBits, S32 angleBits, S32 zBits);
+#endif
+
    // Uses the above method to reduce the precision of a normal vector so the server can
    //  determine exactly what is on the client.  (Pre-dumbing the vector before sending
    //  to the client can result in precision errors...)

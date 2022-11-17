@@ -72,6 +72,22 @@ MaterialList::MaterialList(const MaterialList* pCopy)
          mMatInstList[i] = NULL;
       }
    }
+
+#ifdef MARBLE_BLAST
+    clearMappedMaterials();
+    mMappedMaterials.setSize(pCopy->mMatInstList.size());
+    for (i = 0; i < mMappedMaterials.size(); i++)
+    {
+        if (i < pCopy->mMappedMaterials.size() && pCopy->mMappedMaterials[i])
+        {
+            mMappedMaterials[i] = SimObjectPtr<Material>(pCopy->mMappedMaterials[i]);
+        }
+        else
+        {
+            mMappedMaterials[i] = NULL;
+        }
+    }
+#endif
 }
 
 
@@ -91,10 +107,13 @@ void MaterialList::set(U32 materialCount, const char **materialNames)
    mMaterialNames.setSize(materialCount);
    clearMatInstList();
    mMatInstList.setSize(materialCount);
+   clearMappedMaterials();
+   mMappedMaterials.setSize(materialCount);
    for(U32 i = 0; i < materialCount; i++)
    {
       mMaterialNames[i] = materialNames[i];
       mMatInstList[i] = NULL;
+      constructInPlace(&mMappedMaterials.last());
    }
 }
 
@@ -129,6 +148,7 @@ void MaterialList::free()
 {
    clearMatInstList();
    mMatInstList.clear();
+    mMappedMaterials.clear();
    mMaterialNames.clear();
 }
 
@@ -149,6 +169,9 @@ U32 MaterialList::push_back(const String &filename, Material* material)
 {
    mMaterialNames.push_back(filename);
    mMatInstList.push_back(material ? material->createMatInstance() : NULL);
+   //mMappedMaterials.push_back(material);
+   mMappedMaterials.increment();
+    constructInPlace(&mMappedMaterials.last());
 
    // return the index
    return mMaterialNames.size()-1;
@@ -171,6 +194,7 @@ bool MaterialList::read(Stream &stream)
 
    // pre-size the vectors for efficiency
    mMaterialNames.reserve(count);
+    mMappedMaterials.reserve(count);
 
    // read in the materials
    for (U32 i=0; i<count; i++)
@@ -193,6 +217,8 @@ bool MaterialList::read(Stream &stream)
       // Add it to the list
       mMaterialNames.push_back(name);
       mMatInstList.push_back(NULL);
+      mMappedMaterials.increment();
+       constructInPlace(&mMappedMaterials.last());
    }
 
    return (stream.getStatus() == Stream::Ok);
@@ -238,6 +264,8 @@ bool MaterialList::readText(Stream &stream, U8 firstByte)
       // Add it to the list
       mMaterialNames.push_back(name);
       mMatInstList.push_back(NULL);
+       mMappedMaterials.increment();
+       constructInPlace(&mMappedMaterials.last());
    }
 
    return (stream.getStatus() == Stream::Ok || stream.getStatus() == Stream::EOS);
@@ -285,6 +313,29 @@ void MaterialList::clearMatInstList()
          delete current;
       }
    }
+}
+
+void MaterialList::clearMappedMaterials()
+{
+    // clear out old materials.  any non null element of the list should be pointing at deletable memory,
+    // although multiple indexes may be pointing at the same memory so we have to be careful (see
+    // comment in loop body)
+    for (U32 i = 0; i < mMappedMaterials.size(); i++)
+    {
+        if (mMappedMaterials[i])
+        {
+            SimObjectPtr<Material> current = mMappedMaterials[i];
+            delete current;
+            mMappedMaterials[i] = NULL;
+
+            // ok, since ts material lists can remap difference indexes to the same object (e.g. for ifls),
+            // we need to make sure that we don't delete the same memory twice.  walk the rest of the list
+            // and null out any pointers that match the one we deleted.
+            for (U32 j = 0; j < mMappedMaterials.size(); j++)
+                if (mMappedMaterials[j] == current)
+                    mMappedMaterials[j] = NULL;
+        }
+    }
 }
 
 //--------------------------------------------------------------------------
@@ -437,3 +488,37 @@ void MaterialList::setMaterialInst( BaseMatInstance *matInst, U32 texIndex )
    AssertFatal( texIndex < mMatInstList.size(), "MaterialList::setMaterialInst - index out of bounds" );
    mMatInstList[texIndex] = matInst;
 }
+
+#ifdef MARBLE_BLAST
+Material* MaterialList::getMappedMaterial(U32 index)
+{
+    Material* mat = mMappedMaterials[index];
+    if (!mat)
+    {
+        // lookup a material property entry
+        const String &matName = getMaterialName(index);
+
+        // JMQ: this code assumes that all materials have names.
+
+        String materialName;
+        // Skip past a leading '#' marker.
+        if (matName.compare("#", 1) == 0)
+            materialName = MATMGR->getMapEntry(matName.substr(1, matName.length()-1));
+        else
+            materialName = MATMGR->getMapEntry(matName);
+
+        // IF we didn't find it, then look for a PolyStatic generated Material
+        //  [a little cheesy, but we need to allow for user override of generated Materials]
+        if ( materialName.isEmpty() )
+            materialName = MATMGR->getMapEntry( String::ToString( "polyMat_%s", matName.c_str() ) );
+
+        if ( materialName.isNotEmpty() )
+        {
+            mat = MATMGR->getMaterialDefinitionByName( materialName );
+
+            mMappedMaterials[index] = mat;
+        }
+    }
+    return mat;
+}
+#endif

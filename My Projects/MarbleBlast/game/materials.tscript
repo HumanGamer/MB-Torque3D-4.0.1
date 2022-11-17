@@ -1,0 +1,14 @@
+
+singleton Material(DefaultMaterial8)
+{
+   mapTo = "marble01.skin";
+   DiffuseMapAsset[0] = "ExampleModule:marble01.skin_image";
+   NormalMapAsset[0] = "ExampleModule:marble01.normal_image";
+   RotSpeed[0] = "2.471";
+   translucentBlendOp = "LerpAlpha";
+   translucentZWrite = "1";
+   alphaRef = "20";
+   castDynamicShadows = "0";
+   Glow[0] = "1";
+   Emissive[0] = "1";
+};

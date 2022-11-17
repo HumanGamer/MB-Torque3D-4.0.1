@@ -772,6 +772,10 @@ class SceneObject : public NetObject, private SceneContainer::Link, public Proce
 
       /// @}
 
+#ifdef MARBLE_BLAST
+    virtual Material* getMaterial(U32 material) { return NULL; }
+#endif
+
       /// Return the ProcessList for this object to use.
       ProcessList* getProcessList() const;
 

@@ -96,6 +96,7 @@ function ExampleGameMode::onClientEnterGame(%this, %client)
    %cameraSpawnPoint = %this.pickCameraSpawnPoint(%this.DefaultCameraSpawnGroups);
    // Spawn a camera for this client using the found %spawnPoint
    %this.spawnCamera(%client, %cameraSpawnPoint);
+   %this.spawnPlayer(%client, %cameraSpawnPoint);
 
    // Inform the client of all the other clients
    %count = ClientGroup.getCount();
@@ -193,6 +194,39 @@ function ExampleGameMode::spawnCamera(%this, %client, %spawnPoint)
          }
       }
    }
+}
+
+function ExampleGameMode::spawnPlayer(%this, %client, %spawnPoint)
+{
+   // Set the control object to the default camera
+   if (!isObject(%client.player))
+   {
+         %client.player = spawnObject("Marble", "DefaultMarble");
+   }
+
+   // If we have a camera then set up some properties
+   if (isObject(%client.player))
+   {
+      MissionCleanup.add( %client.player );
+      %client.player.scopeToClient(%client);
+
+      %client.setControlObject(%client.player);
+
+      if(!isObject(%spawnPoint))
+         %spawnPoint = %this.pickCameraSpawnPoint(%this.defaultCameraSpawnGroups);
+
+      %client.player.setPosition(%spawnPoint.getTransform(), 0.45);
+
+      setGravity(%client.player, %spawnPoint);
+   }
+}
+
+function setGravity(%player, %spawnobj)
+{
+   %rotation = getWords(%spawnobj.getTransform(), 3);
+   %ortho = vectorOrthoBasis(%rotation);
+   %orthoinv = getWords(%ortho, 0, 5) SPC VectorScale(getWords(%ortho, 6), -1);
+   %player.setGravityDir(%orthoinv,true);
 }
 
 //-----------------------------------------------------------------------------

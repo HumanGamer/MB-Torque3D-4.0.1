@@ -108,6 +108,7 @@ class Point3F
   public:
    Point3F();
    Point3F(const Point3F&);
+   Point3F(const Point3D&);
    Point3F(F32 _x, F32 _y, F32 _z);
    explicit Point3F(F32 xyz);
 
@@ -154,6 +155,7 @@ class Point3F
    void normalize(F32 val);
    void convolve(const Point3F&);
    void convolveInverse(const Point3F&);
+   Point3F abs();
 
    //-------------------------------------- Overloaded operators
   public:
@@ -168,8 +170,12 @@ class Point3F
    Point3F& operator-=(const Point3F&);
 
    // Arithmetic w/ scalars
+   Point3F  operator+(const F32) const;
+   Point3F  operator-(const F32) const;
    Point3F  operator*(F32) const;
    Point3F  operator/(F32) const;
+   Point3F& operator+=(const F32);
+   Point3F& operator-=(const F32);
    Point3F& operator*=(F32);
    Point3F& operator/=(F32);
 
@@ -254,12 +260,18 @@ class Point3D
    // Arithmetic w/ other points
    Point3D  operator+(const Point3D&) const;
    Point3D  operator-(const Point3D&) const;
+   Point3D  operator*(const Point3D&) const;
    Point3D& operator+=(const Point3D&);
    Point3D& operator-=(const Point3D&);
+   Point3D& operator*=(const Point3D&);
 
    // Arithmetic w/ scalars
+   Point3D  operator+(const F64) const;
+   Point3D  operator-(const F64) const;
    Point3D  operator*(F64) const;
    Point3D  operator/(F64) const;
+   Point3D& operator+=(const F64);
+   Point3D& operator-=(const F64);
    Point3D& operator*=(F64);
    Point3D& operator/=(F64);
 
@@ -449,6 +461,12 @@ inline Point3F::Point3F(const Point3F& _copy)
    //
 }
 
+inline Point3F::Point3F(const Point3D& _copy)
+    : x(_copy.x), y(_copy.y), z(_copy.z)
+{
+    //
+}
+
 inline Point3F::Point3F(F32 _x, F32 _y, F32 _z)
  : x(_x), y(_y), z(_z)
 {
@@ -597,6 +615,11 @@ inline void Point3F::convolveInverse(const Point3F& c)
    z /= c.z;
 }
 
+inline Point3F Point3F::abs()
+{
+    return Point3F(mFabs(x), mFabs(y), mFabs(z));
+}
+
 inline F32 Point3F::lenSquared() const
 {
    return (x * x) + (y * y) + (z * z);
@@ -678,9 +701,37 @@ inline Point3F& Point3F::operator-=(const Point3F& _rSub)
    return *this;
 }
 
+inline Point3F Point3F::operator+(const F32 _add) const
+{
+    return Point3F(x + _add, y + _add, z + _add);
+}
+
+inline Point3F Point3F::operator-(const F32 _rSub) const
+{
+    return Point3F(x - _rSub, y - _rSub, z - _rSub);
+}
+
 inline Point3F Point3F::operator*(F32 _mul) const
 {
    return Point3F(x * _mul, y * _mul, z * _mul);
+}
+
+inline Point3F& Point3F::operator+=(const F32 _add)
+{
+    x += _add;
+    y += _add;
+    z += _add;
+
+    return *this;
+}
+
+inline Point3F& Point3F::operator-=(const F32 _rSub)
+{
+    x -= _rSub;
+    y -= _rSub;
+    z -= _rSub;
+
+    return *this;
 }
 
 inline Point3F Point3F::operator/(F32 _div) const
@@ -915,6 +966,19 @@ inline Point3D Point3D::operator-(const Point3D& _rSub) const
    return Point3D(x - _rSub.x, y - _rSub.y, z - _rSub.z);
 }
 
+inline Point3D Point3D::operator*(const Point3D& _vec) const
+{
+    return Point3D(x * _vec.x, y * _vec.y, z * _vec.z);
+}
+
+inline Point3D& Point3D::operator*=(const Point3D& _vec)
+{
+    x *= _vec.x;
+    y *= _vec.y;
+    z *= _vec.z;
+    return *this;
+}
+
 inline Point3D& Point3D::operator+=(const Point3D& _add)
 {
    x += _add.x;
@@ -931,6 +995,34 @@ inline Point3D& Point3D::operator-=(const Point3D& _rSub)
    z -= _rSub.z;
 
    return *this;
+}
+
+inline Point3D& Point3D::operator+=(const F64 _add)
+{
+    x += _add;
+    y += _add;
+    z += _add;
+
+    return *this;
+}
+
+inline Point3D& Point3D::operator-=(const F64 _rSub)
+{
+    x -= _rSub;
+    y -= _rSub;
+    z -= _rSub;
+
+    return *this;
+}
+
+inline Point3D Point3D::operator+(const F64 _add) const
+{
+    return Point3D(x + _add, y + _add, z + _add);
+}
+
+inline Point3D Point3D::operator-(const F64 _rSub) const
+{
+    return Point3D(x - _rSub, y - _rSub, z - _rSub);
 }
 
 inline Point3D Point3D::operator*(F64 _mul) const

@@ -342,6 +342,7 @@ addPath("${srcDir}/postFx")
 addPath("${srcDir}/T3D")
 set(BLACKLIST "" )
 
+addPath("${srcDir}/T3D/marble")
 addPath("${srcDir}/T3D/examples")
 addPath("${srcDir}/T3D/fps")
 addPath("${srcDir}/T3D/fx")

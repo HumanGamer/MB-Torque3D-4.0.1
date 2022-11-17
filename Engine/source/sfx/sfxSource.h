@@ -493,6 +493,9 @@ class SFXSource : public SimGroup
       /// Sets the position and orientation for a 3d buffer.
       virtual void setTransform( const MatrixF& transform );
 
+      /// Sets the position for a 3d buffer.
+      void setPosition(const Point3F& position);
+
       /// Sets the velocity for a 3d buffer.
       virtual void setVelocity( const VectorF& velocity );
 

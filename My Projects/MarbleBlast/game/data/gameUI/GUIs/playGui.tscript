@@ -57,3 +57,8 @@ function PlayGui::clearHud( %this )
    while ( %this.getCount() > 0 )
       %this.getObject( 0 ).delete();
 }
+
+function PlayGui::updateTimer(%this, %elapsedTime)
+{
+
+}

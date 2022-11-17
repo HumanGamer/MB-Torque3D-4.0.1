@@ -1,19 +1,17 @@
 <MaterialAsset
-    canSave="true"
-    canSaveDynamicFields="true"
     AssetName="OctahedronMat"
     materialDefinitionName="OctahedronMat"
     VersionId="1">
     <Material
         Name="OctahedronMat"
         mapTo="green"
-        translucent="1"
-        translucentBlendOp="PreMul"
-        castShadows="0">
+        castShadows="false"
+        translucent="true">
         <Material.Stages>
             <Stages_beginarray
-                DiffuseMapAsset="Core_GameObjects:camera_image"
-                diffuseColor="0 1 0 1"/>
+                DiffuseColor="0 1 0 1"
+                DiffuseMapAsset="ExampleModule:marble01.skin_image"
+                NormalMapAsset="ExampleModule:marble01.normal_image"/>
         </Material.Stages>
     </Material>
 </MaterialAsset>

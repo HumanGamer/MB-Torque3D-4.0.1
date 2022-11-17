@@ -1,0 +1,4 @@
+<ImageAsset
+    AssetName="ExampleModule_plate.normal_image_PreviewImage"
+    imageFile="@assetFile=plate.normal_image_Preview.png"
+    VersionId="1"/>

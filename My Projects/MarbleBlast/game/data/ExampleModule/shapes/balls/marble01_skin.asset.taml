@@ -1,0 +1,15 @@
+<MaterialAsset
+    AssetName="marble01_skin"
+    materialDefinitionName="marble01_skin"
+    VersionId="1">
+    <Material
+        Name="marble01_skin"
+        mapTo="marble01_skin"
+        originalAssetName="marble01_skin">
+        <Material.Stages>
+            <Stages_beginarray
+                DiffuseMapAsset="ExampleModule:marble01.skin_image"
+                NormalMapAsset="ExampleModule:marble01.normal_image"/>
+        </Material.Stages>
+    </Material>
+</MaterialAsset>

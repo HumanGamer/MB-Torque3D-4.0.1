@@ -440,6 +440,77 @@ Point3F BitStream::dumbDownNormal(const Point3F& vec, S32 bitCount)
    return ret;
 }
 
+#ifdef MARBLE_BLAST
+void BitStream::writeNormalVector(const Point3F& vec, S32 angleBitCount, S32 zBitCount)
+{
+    writeSignedFloat(mClampF(vec.z, -1.0f, 1.0f), zBitCount);
+
+    F32 epsilon = 0.00001f;
+    if (mFabs(vec.x) > epsilon || mFabs(vec.y) > epsilon)
+    {
+        writeSignedFloat(mAtan2(vec.x, vec.y) / M_2PI, angleBitCount);
+    }
+    else
+    {
+        // angle won't matter...
+        writeSignedFloat(0.0f, angleBitCount);
+    }
+}
+
+void BitStream::readNormalVector(Point3F* vec, S32 angleBitCount, S32 zBitCount)
+{
+    vec->z = readSignedFloat(zBitCount);
+
+    F32 angle = M_2PI * readSignedFloat(angleBitCount);
+
+    F32 mult = 1.0f - vec->z * vec->z;
+    if (mult > 0.0f)
+        // be very careful with this just in case vec.z was a little over 1
+        mult = mSqrt(mult);
+    else
+        mult = 0.0f;
+
+    vec->x = mult * mSin(angle);
+    vec->y = mult * mCos(angle);
+}
+void BitStream::writeVector(Point3F vec, F32 minMag, F32 maxMag, S32 magBits, S32 angleBits, S32 zBits)
+{
+    F32 mag = vec.len();
+    if (writeFlag(mag > minMag))
+    {
+        if (writeFlag(mag < maxMag))
+            // write velocity magnitude compressed...
+            writeFloat(mag / maxMag, magBits);
+        else
+            // write velocity magnitude uncompressed...
+            write(mag);
+        // write velocity vector...
+        vec *= 1.0f / mag;
+        writeNormalVector(vec, angleBits, zBits);
+    }
+}
+
+void BitStream::readVector(Point3F* vec, F32 minMag, F32 maxMag, S32 magBits, S32 angleBits, S32 zBits)
+{
+    if (readFlag())
+    {
+        F32 mag;
+        if (readFlag())
+            // read magnitude compressed...
+            mag = readFloat(magBits) * maxMag;
+        else
+            // read magnitude uncompressed...
+            read(&mag);
+
+        // read vector
+        readNormalVector(vec, angleBits, zBits);
+        *vec *= mag;
+    }
+    else
+        vec->set(0, 0, 0);
+}
+#endif
+
 void BitStream::writeVector( Point3F vec, F32 maxMag, S32 magBits, S32 normalBits )
 {
    F32 mag = vec.len();
@@ -661,6 +732,95 @@ void BitStream::readCompressedPoint(Point3F* p,F32 scale)
       p->z = mCompressPoint.z + p->z * scale;
    }
 }
+
+#ifdef MARBLE_BLAST
+U32 BitStream::writeCompressedPointRP(const Point3F& p, U32 numDists, const F32* dists, F32 err)
+{
+    U32 ret;
+
+    Point3F vec = p - mCompressPoint;
+    F32 len = vec.len();
+    if (err <= len)
+        vec *= 1.0f / len;
+    else
+        vec = Point3F(0.0f, 0.0f, 1.0f);
+
+    S32 zBits = getBinLog2(getNextPow2(1 - (*dists * -2.0f / err)));
+    S32 angleBits = getBinLog2(getNextPow2(*dists * M_2PI_F / err));
+    writeNormalVector(vec, angleBits, zBits);
+    S32 v11 = angleBits + zBits + 1;
+    U32 num = 0;
+    U32 bits;
+    for (bits = v11; num < numDists; ++num)
+    {
+        if (dists[num] > len)
+            break;
+    }
+    writeRangedU32(num, 0, numDists);
+    U32 bitCount = getBinLog2(getNextPow2(numDists + 1)) + bits;
+    if (num >= numDists)
+    {
+        write(len);
+        ret = bitCount + 32;
+    } else {
+        F32 errBin;
+        if (num)
+            errBin = dists[num - 1] * err / *dists;
+        else
+            errBin = err;
+
+        F32 minBin;
+        if (num)
+            minBin = dists[num - 1];
+        else
+            minBin = 0.0f;
+
+        S32 extraBitCount = getBinLog2(getNextPow2((dists[num] - minBin) / errBin));
+        F32 minBina = (len - minBin) / (dists[num] - minBin);
+        writeFloat(minBina, extraBitCount);
+        ret = extraBitCount + bitCount;
+    }
+
+    return ret;
+}
+
+U32 BitStream::readCompressedPointRP(Point3F* p, U32 numDists, const F32* dists, F32 err)
+{
+    U32 ret;
+
+    S32 zBits = getBinLog2(getNextPow2(1 - (*dists * -2.0f / err)));
+    S32 angleBits = getBinLog2(getNextPow2(*dists * M_2PI_F / err));
+    readNormalVector(p, angleBits, zBits);
+    U32 num = readRangedU32(0, numDists);
+    U32 bitCount = angleBits + getBinLog2(getNextPow2(numDists + 1)) + zBits + 1;
+    if (num >= numDists)
+    {
+        read(&err);
+        ret = bitCount + 32;
+    } else {
+        F32 errBin;
+        if (num)
+            errBin = dists[num - 1] * err / *dists;
+        else
+            errBin = err;
+
+        if (num)
+            err = dists[num - 1];
+        else
+            err = 0.0f;
+
+        S32 extraBitCount = getBinLog2(getNextPow2((dists[num] - err) / errBin));
+        F32 errBina = readFloat(extraBitCount);
+        ret = extraBitCount + bitCount;
+        err = (dists[num] - err) * errBina + err;
+    }
+
+    *p *= err;
+    *p += mCompressPoint;
+
+    return ret;
+}
+#endif
 
 //------------------------------------------------------------------------------
 

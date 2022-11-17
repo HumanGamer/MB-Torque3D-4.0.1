@@ -1,0 +1,4 @@
+<ImageAsset
+    AssetName="ExampleModule_beam.normal_image_PreviewImage"
+    imageFile="@assetFile=beam.normal_image_Preview.png"
+    VersionId="1"/>

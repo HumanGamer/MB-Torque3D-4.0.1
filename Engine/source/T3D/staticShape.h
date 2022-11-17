@@ -45,6 +45,26 @@ struct StaticShapeData: public ShapeBaseData {
    bool  isShielded;
    F32   energyPerDamagePoint;	// Re-added for AFX
 
+#ifdef MARBLE_BLAST
+
+    enum ForceType
+    {
+        NoForce = 0,
+        ForceSpherical = 1,
+        ForceField = 2,
+        ForceCone = 3,
+        MAX_FORCE_TYPES
+    };
+
+    ForceType forceType[4];
+    S32 forceNode[4];
+    Point3F forceVector[4];
+    F32 forceRadius[4];
+    F32 forceStrength[4];
+    F32 forceArc[4];
+
+#endif
+
    //
    DECLARE_CONOBJECT(StaticShapeData);
    static void initPersistFields();
@@ -55,6 +75,8 @@ public:
    virtual bool   allowSubstitutions() const { return true; }
 };
 
+typedef StaticShapeData::ForceType ForceStates;
+DefineEnumType( ForceStates );
 
 //----------------------------------------------------------------------------
 
@@ -93,6 +115,10 @@ public:
    // power
    void setPowered(bool power)      {mPowered = power;}
    bool isPowered()                 {return(mPowered);}
+
+#ifdef MARBLE_BLAST
+    virtual bool getForce(Point3F& pos, Point3F* force);
+#endif
 
    static void initPersistFields();   
 };

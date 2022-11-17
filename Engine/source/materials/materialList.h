@@ -64,6 +64,10 @@ public:
    virtual void free();
    void clearMatInstList();
 
+#ifdef MARBLE_BLAST
+    void clearMappedMaterials();
+#endif
+
    bool empty() const { return mMaterialNames.empty();   }
    U32  size() const { return (U32)mMaterialNames.size(); }
 
@@ -79,6 +83,10 @@ public:
    /// Initialize material instances in material list.
    void initMatInstances(  const FeatureSet &features, 
                            const GFXVertexFormat *vertexFormat );
+
+#ifdef MARBLE_BLAST
+    Material* getMappedMaterial(U32 index);
+#endif
 
    /// Return the material instance or NULL if the 
    /// index is out of bounds.
@@ -96,6 +104,10 @@ protected:
 
    String               mLookupPath;
    Vector<String>       mMaterialNames;            //!< Material 'mapTo' targets
+
+#ifdef MARBLE_BLAST
+    Vector<SimObjectPtr<Material> > mMappedMaterials;
+#endif
 
    virtual void mapMaterial( U32 index );
 

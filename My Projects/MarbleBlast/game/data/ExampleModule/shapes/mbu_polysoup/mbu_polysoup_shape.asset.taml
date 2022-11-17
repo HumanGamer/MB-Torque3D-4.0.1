@@ -1,0 +1,4 @@
+<ShapeAsset
+    AssetName="mbu_polysoup_shape"
+    fileName="@assetFile=mbu_polysoup.dae"
+    constuctorFileName="@assetFile=mbu_polysoup.tscript"/>

@@ -236,7 +236,14 @@ Material::Material()
    mImpactFXIndex = -1;
    INIT_ASSET(CustomFootstepSound);
    INIT_ASSET(CustomImpactSound);
-   mFriction = 0.0;
+#ifdef MARBLE_BLAST
+   mFriction = 1.0;
+    mSound = -1;
+    mRestitution = 1.0f;
+    mForce = 0.0f;
+#else
+    mFriction = 0.0;
+#endif
 
    mDirectSoundOcclusion = 1.f;
    mReverbSoundOcclusion = 1.0;
@@ -504,6 +511,13 @@ void Material::initPersistFields()
    addField("friction", TypeF32, Offset(mFriction, Material));
    addField("directSoundOcclusion", TypeF32, Offset(mDirectSoundOcclusion, Material));
    addField("reverbSoundOcclusion", TypeF32, Offset(mReverbSoundOcclusion, Material));
+#endif
+
+#ifdef MARBLE_BLAST
+    addField("friction", TypeF32, Offset(mFriction, Material));
+    addField("restitution", TypeF32, Offset(mRestitution, Material));
+    addField("force", TypeF32, Offset(mForce, Material));
+    addField("sound", TypeS32, Offset(mSound, Material));
 #endif
 
    endGroup("Behavioral");

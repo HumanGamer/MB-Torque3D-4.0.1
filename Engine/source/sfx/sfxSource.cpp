@@ -951,6 +951,14 @@ void SFXSource::setTransform( const MatrixF& transform )
 
 //-----------------------------------------------------------------------------
 
+void SFXSource::setPosition(const Point3F& position)
+{
+    mTransform.setPosition(position);
+    setTransform(mTransform);
+}
+
+//-----------------------------------------------------------------------------
+
 void SFXSource::setVelocity( const VectorF& velocity )
 {
    mVelocity = velocity;

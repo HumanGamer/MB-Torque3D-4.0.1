@@ -171,6 +171,10 @@ enum SceneObjectTypes
    /// @see TurretShape
    TurretObjectType = BIT(29),
 
+#ifdef MARBLE_BLAST
+   ForceObjectType = BIT(30),
+#endif
+
    /// @}
 };
 

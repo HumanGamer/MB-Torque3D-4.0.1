@@ -41,6 +41,8 @@
             <Setting
                 name="doubleClickAction">Edit Asset</Setting>
             <Setting
+                name="LastPosExt">204 79 615 608</Setting>
+            <Setting
                 name="previewTileSize">1</Setting>
             <Setting
                 name="showCoreModule">1</Setting>
@@ -95,7 +97,9 @@
     <Group
         name="DatablockEditor">
         <Setting
-            name="libraryTab">1</Setting>
+            name="libraryTab">0</Setting>
+        <Setting
+            name="selectedDatablock">AntiGravityItem</Setting>
     </Group>
     <Group
         name="GuiEditor">
@@ -185,18 +189,34 @@
                     name="cameraSpeed">25</Setting>
             </Group>
             <Group
+                name="ExampleLevel.mis">
+                <Setting
+                    name="cameraSpeed">25</Setting>
+            </Group>
+            <Group
                 name="PbrMatTest.mis">
                 <Setting
                     name="cameraSpeed">5</Setting>
+            </Group>
+            <Group
+                name="PolysoupLevel.mis">
+                <Setting
+                    name="cameraSpeed">25</Setting>
             </Group>
         </Group>
     </Group>
     <Group
         name="MeshRoadEditor">
         <Setting
+            name="bottomMaterialName">DefaultRoadMaterialOther</Setting>
+        <Setting
+            name="DefaultDepth">5</Setting>
+        <Setting
             name="DefaultNormal">0 0 1</Setting>
         <Setting
             name="DefaultWidth">10</Setting>
+        <Setting
+            name="HoverNodeColor">255 255 255 255</Setting>
         <Setting
             name="HoverSplineColor">255 0 0 255</Setting>
         <Setting
@@ -361,7 +381,7 @@
     <Group
         name="WorldEditor">
         <Setting
-            name="currentEditor">WorldEditorInspectorPlugin</Setting>
+            name="currentEditor">ShapeEditorPlugin</Setting>
         <Setting
             name="displayType">6</Setting>
         <Setting
@@ -369,13 +389,15 @@
         <Setting
             name="EditorLayoutMode">Modern</Setting>
         <Setting
-            name="forceLoadDAE">0</Setting>
-        <Setting
             name="forceSidebarToSide">1</Setting>
         <Setting
-            name="orthoFOV">4.60158014</Setting>
+            name="lastEditedLevel">ExampleModule:PolysoupLevel</Setting>
+        <Setting
+            name="orthoFOV">127.30616</Setting>
         <Setting
             name="orthoShowGrid">1</Setting>
+        <Setting
+            name="recentLevelsList">ExampleModule:PolysoupLevel</Setting>
         <Setting
             name="startupMode">Blank Level</Setting>
         <Setting

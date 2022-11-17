@@ -1,0 +1,11 @@
+<LevelAsset
+    AssetName="PolysoupLevel"
+    LevelFile="@assetFile=PolysoupLevel.mis"
+    LevelName="Polysoup"
+    PostFXPresetFile="@assetFile=PolysoupLevel.postfxpreset.tscript"
+    DecalsFile="@assetFile=PolysoupLevel.mis.decals"
+    ForestFile="@assetFile=PolysoupLevel.forest"
+    NavmeshFile="@assetFile=PolysoupLevel.nav"
+    staticObjectAssetDependency0="@asset=Prototyping:FloorGray"
+    staticObjectAssetDependency1="@asset=ExampleModule:mbu_polysoup_shape"
+    VersionId="1"/>
