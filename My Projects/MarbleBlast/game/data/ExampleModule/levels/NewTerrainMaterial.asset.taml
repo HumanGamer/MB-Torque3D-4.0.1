@@ -1,0 +1,31 @@
+<TerrainMaterialAsset
+    AssetName="NewTerrainMaterial"
+    materialDefinitionName="NewTerrainMaterial"
+    VersionId="1">
+    <TerrainMaterial
+        Name="NewTerrainMaterial"
+        DiffuseMapAsset="ExampleModule:tile_intermediate_image"
+        diffuseSize="200"
+        NormalMapAsset="ExampleModule:tile_intermediate.normal_image"
+        DetailMapAsset="ExampleModule:tile_intermediate_image"
+        detailSize="10"
+        internalName="ExampleModule:NewTerrainMaterial"
+        detailBrightness="1"
+        Enabled="1"
+        isManaged="1"/>
+    <Material
+        Name="TerrainFX_NewTerrainMaterial"
+        mapTo="ExampleModule:NewTerrainMaterial"
+        showDust="true"
+        footstepSoundId="0"
+        impactSoundId="0"
+        materialTag0="Terrain"
+        terrainMaterials="1">
+        <Material.EffectColors>
+            <EffectColor
+                EffectColor="0.42 0.42 0 1"/>
+            <EffectColor
+                EffectColor="0.42 0.42 0 1"/>
+        </Material.EffectColors>
+    </Material>
+</TerrainMaterialAsset>

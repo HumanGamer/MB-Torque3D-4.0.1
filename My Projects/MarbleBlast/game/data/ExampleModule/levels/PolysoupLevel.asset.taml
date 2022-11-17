@@ -6,6 +6,7 @@
     DecalsFile="@assetFile=PolysoupLevel.mis.decals"
     ForestFile="@assetFile=PolysoupLevel.forest"
     NavmeshFile="@assetFile=PolysoupLevel.nav"
-    staticObjectAssetDependency0="@asset=Prototyping:FloorGray"
+    staticObjectAssetDependency0="@asset=ExampleModule:tile_beginner"
     staticObjectAssetDependency1="@asset=ExampleModule:mbu_polysoup_mbu_polysoup_mbu_polysoup_shape"
+    staticObjectAssetDependency2="@asset=ExampleModule:NewTerrain"
     VersionId="1"/>

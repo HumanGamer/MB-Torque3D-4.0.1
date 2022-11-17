@@ -1,0 +1,9 @@
+<LevelAsset
+    AssetName="NewLevel"
+    LevelFile="@assetFile=NewLevel.mis"
+    LevelName="NewLevel"
+    PostFXPresetFile="@assetFile=NewLevel.postfxpreset.tscript"
+    DecalsFile="@assetFile=NewLevel.mis.decals"
+    ForestFile="@assetFile=NewLevel.forest"
+    NavmeshFile="@assetFile=NewLevel.nav"
+    VersionId="1"/>

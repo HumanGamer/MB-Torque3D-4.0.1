@@ -1,0 +1,4 @@
+<ImageAsset
+    AssetName="ExampleModule_tile_intermediate_PreviewImage"
+    imageFile="@assetFile=tile_intermediate_Preview.dds"
+    VersionId="1"/>

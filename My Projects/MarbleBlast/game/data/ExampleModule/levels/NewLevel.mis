@@ -1,5 +1,5 @@
 //--- OBJECT WRITE BEGIN ---
-new Scene(PolysoupLevel) {
+new Scene(NewLevel) {
    isEditing = "1";
    gameModeName = "ExampleGameMode";
       Enabled = "1";
@@ -86,3 +86,5 @@ new Scene(PolysoupLevel) {
    };
 };
 //--- OBJECT WRITE END ---
+
+

@@ -44,9 +44,10 @@ new Scene(PolysoupLevel) {
          width = "3072";
    };
    new GroundPlane() {
-      scaleU = "25";
-      scaleV = "25";
-      MaterialAsset = "Prototyping:FloorGray";
+      squareSize = "100";
+      scaleU = "50";
+      scaleV = "50";
+      MaterialAsset = "ExampleModule:tile_beginner";
          dirtyGameObject = "0";
          Enabled = "1";
          position = "0 0 0";
@@ -75,6 +76,8 @@ new Scene(PolysoupLevel) {
    };
    new TSStatic() {
       ShapeAsset = "ExampleModule:mbu_polysoup_mbu_polysoup_mbu_polysoup_shape";
+      collisionType = "Visible Mesh";
+      decalType = "Visible Mesh";
       position = "0 0 17.5055";
    };
 };

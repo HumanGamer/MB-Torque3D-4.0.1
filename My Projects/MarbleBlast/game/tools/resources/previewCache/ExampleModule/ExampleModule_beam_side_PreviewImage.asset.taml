@@ -1,0 +1,4 @@
+<ImageAsset
+    AssetName="ExampleModule_beam_side_PreviewImage"
+    imageFile="@assetFile=beam_side_Preview.dds"
+    VersionId="1"/>
