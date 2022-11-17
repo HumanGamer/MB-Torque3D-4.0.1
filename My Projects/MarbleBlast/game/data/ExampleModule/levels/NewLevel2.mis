@@ -1,5 +1,5 @@
 //--- OBJECT WRITE BEGIN ---
-new Scene(PolysoupLevel) {
+new Scene(NewLevel2) {
    isEditing = "1";
    gameModeName = "ExampleGameMode";
       Enabled = "1";
@@ -23,7 +23,6 @@ new Scene(PolysoupLevel) {
       color = "0.968628 0.901961 0.901961 1";
       ambient = "0.337255 0.533333 0.619608 1";
       brightness = "2";
-      coronaTint = "White";
       texSize = "2048";
       overDarkFactor = "3000 1500 750 250";
       shadowDistance = "200";
@@ -45,9 +44,10 @@ new Scene(PolysoupLevel) {
          width = "3072";
    };
    new GroundPlane() {
-      scaleU = "25";
-      scaleV = "25";
-      MaterialAsset = "Prototyping:FloorGray";
+      squareSize = "100";
+      scaleU = "50";
+      scaleV = "50";
+      MaterialAsset = "ExampleModule:tile_beginner";
          dirtyGameObject = "0";
          Enabled = "1";
          position = "0 0 0";
@@ -79,6 +79,39 @@ new Scene(PolysoupLevel) {
       collisionType = "Visible Mesh";
       decalType = "Visible Mesh";
       position = "0 0 17.5055";
+   };
+   new TerrainBlock(NewTerrain) {
+      TerrainAsset = "ExampleModule:NewTerrain";
+      position = "-602 -491 -194";
+   };
+   new WaterPlane(TestWater) {
+      baseColor = "45 108 171 255";
+      waveDir[0] = "0 1";
+      waveDir[1] = "0.707 0.707";
+      waveDir[2] = "0.5 0.86";
+      waveSpeed[0] = "1";
+      waveSpeed[1] = "1";
+      waveSpeed[2] = "1";
+      waveMagnitude[0] = "0.2";
+      waveMagnitude[1] = "0.2";
+      waveMagnitude[2] = "0.2";
+      RippleTex = "Core_Rendering:ripple_image";
+      RippleTexAsset = "Core_Rendering:ripple_image";
+      rippleDir[0] = "0 1";
+      rippleDir[1] = "0.707 0.707";
+      rippleDir[2] = "0.5 0.86";
+      rippleSpeed[0] = "0.065";
+      rippleSpeed[1] = "0.09";
+      rippleSpeed[2] = "0.04";
+      rippleTexScale[0] = "7.14 7.14";
+      rippleTexScale[1] = "6.25 12.5";
+      rippleTexScale[2] = "50 50";
+      overallRippleMagnitude = "1";
+      FoamTex = "Core_Rendering:foam_image";
+      FoamTexAsset = "Core_Rendering:foam_image";
+      DepthGradientTex = "Core_Rendering:depthcolor_ramp_image";
+      DepthGradientTexAsset = "Core_Rendering:depthcolor_ramp_image";
+      position = "0 0 8.12707";
    };
 };
 //--- OBJECT WRITE END ---

@@ -6,4 +6,7 @@
     DecalsFile="@assetFile=NewLevel.mis.decals"
     ForestFile="@assetFile=NewLevel.forest"
     NavmeshFile="@assetFile=NewLevel.nav"
+    staticObjectAssetDependency0="@asset=ExampleModule:tile_beginner"
+    staticObjectAssetDependency1="@asset=ExampleModule:mbu_polysoup_mbu_polysoup_mbu_polysoup_shape"
+    staticObjectAssetDependency2="@asset=ExampleModule:NewTerrain"
     VersionId="1"/>

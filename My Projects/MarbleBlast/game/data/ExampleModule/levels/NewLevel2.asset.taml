@@ -1,0 +1,12 @@
+<LevelAsset
+    AssetName="NewLevel2"
+    LevelFile="@assetFile=NewLevel2.mis"
+    LevelName="NewLevel2"
+    PostFXPresetFile="@assetFile=NewLevel2.postfxpreset.tscript"
+    DecalsFile="@assetFile=NewLevel2.mis.decals"
+    ForestFile="@assetFile=NewLevel2.forest"
+    NavmeshFile="@assetFile=NewLevel2.nav"
+    staticObjectAssetDependency0="@asset=ExampleModule:tile_beginner"
+    staticObjectAssetDependency1="@asset=ExampleModule:mbu_polysoup_mbu_polysoup_mbu_polysoup_shape"
+    staticObjectAssetDependency2="@asset=ExampleModule:NewTerrain"
+    VersionId="1"/>
