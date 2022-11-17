@@ -1,0 +1,14 @@
+<MaterialAsset
+    AssetName="beam_side"
+    materialDefinitionName="beam_side"
+    originalFilePath="D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/materials.tscript">
+    <Material
+        Name="beam_side"
+        mapTo="beam_side">
+        <Material.Stages>
+            <Stages_beginarray
+                DiffuseMapAsset="ExampleModule:beam_side_image"
+                NormalMapAsset="ExampleModule:beam.normal_image"/>
+        </Material.Stages>
+    </Material>
+</MaterialAsset>

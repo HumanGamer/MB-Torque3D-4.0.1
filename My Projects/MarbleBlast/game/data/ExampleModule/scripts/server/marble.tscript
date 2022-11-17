@@ -245,14 +245,14 @@ datablock SFXProfile(SlippingSfx)
 
 datablock MarbleData(DefaultMarble)
         {
-            emap = true;
-            renderFirstPerson = true;
+            emap = 1;
+            renderFirstPerson = 1;
             maxRollVelocity = 15;
             angularAcceleration = 75;
             brakingAcceleration = 30;
             gravity = 20;
             size = 1.5;
-            megaSize = 1.5 * 2.25;
+            megaSize = "3.375";
             mass = 1;
             staticFriction = 1.1;
             kineticFriction = 0.7;
@@ -297,8 +297,8 @@ datablock MarbleData(DefaultMarble)
             maxInv[TimeTravelItem] = 20;
             //   maxInv[GoodiesItem] = 10;
 
-            dynamicReflection = true;
-   ShapeAsset = "ExampleModule:marble01_shape";
+            dynamicReflection = 1;
+   ShapeAsset = "ExampleModule:balls_balls_marble01_shape";
    cameraMaxDist = "0.2";
    maxInvTimeTravelItem = "20";
    maxInvSuperSpeedItem = "20";

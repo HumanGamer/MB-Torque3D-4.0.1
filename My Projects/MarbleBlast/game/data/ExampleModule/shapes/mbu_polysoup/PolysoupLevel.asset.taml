@@ -7,5 +7,5 @@
     ForestFile="@assetFile=PolysoupLevel.forest"
     NavmeshFile="@assetFile=PolysoupLevel.nav"
     staticObjectAssetDependency0="@asset=Prototyping:FloorGray"
-    staticObjectAssetDependency1="@asset=ExampleModule:mbu_polysoup_shape"
+    staticObjectAssetDependency1="@asset=ExampleModule:mbu_polysoup_mbu_polysoup_mbu_polysoup_shape"
     VersionId="1"/>

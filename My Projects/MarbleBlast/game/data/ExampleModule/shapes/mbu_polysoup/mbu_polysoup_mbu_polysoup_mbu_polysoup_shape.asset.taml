@@ -1,0 +1,11 @@
+<ShapeAsset
+    AssetName="mbu_polysoup_mbu_polysoup_mbu_polysoup_shape"
+    fileName="@assetFile=mbu_polysoup.dae"
+    constuctorFileName="@assetFile=mbu_polysoup.tscript"
+    materialSlot0="@asset=ExampleModule:beam_side"
+    materialSlot1="@asset=ExampleModule:edge_white"
+    materialSlot2="@asset=ExampleModule:plate_1"
+    materialSlot3="@asset=ExampleModule:tile_advanced"
+    materialSlot4="@asset=ExampleModule:tile_beginner"
+    materialSlot5="@asset=ExampleModule:tile_intermediate"
+    materialSlot6="@asset=ExampleModule:tile_underside"/>

@@ -1,0 +1,15 @@
+<MaterialAsset
+    AssetName="edge_white"
+    materialDefinitionName="edge_white">
+    <Material
+        Name="edge_white"
+        mapTo="edge_white">
+        <Material.Stages>
+            <Stages_beginarray
+                DiffuseMapAsset="ExampleModule:edge_white_image"
+                NormalMapAsset="ExampleModule:edge.normal_image"/>
+            <Stages_beginarray
+                DiffuseColor="1 1 1 1"/>
+        </Material.Stages>
+    </Material>
+</MaterialAsset>

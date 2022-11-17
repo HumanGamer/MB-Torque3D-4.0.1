@@ -99,7 +99,7 @@
         <Setting
             name="libraryTab">0</Setting>
         <Setting
-            name="selectedDatablock">AntiGravityItem</Setting>
+            name="selectedDatablock">DefaultMarble</Setting>
     </Group>
     <Group
         name="GuiEditor">
@@ -381,13 +381,15 @@
     <Group
         name="WorldEditor">
         <Setting
-            name="currentEditor">ShapeEditorPlugin</Setting>
+            name="currentEditor">MaterialEditorPlugin</Setting>
         <Setting
             name="displayType">6</Setting>
         <Setting
             name="dropType">screenCenter</Setting>
         <Setting
             name="EditorLayoutMode">Modern</Setting>
+        <Setting
+            name="forceLoadDAE">0</Setting>
         <Setting
             name="forceSidebarToSide">1</Setting>
         <Setting

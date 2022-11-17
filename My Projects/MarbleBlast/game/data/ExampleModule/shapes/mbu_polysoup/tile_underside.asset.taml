@@ -1,0 +1,13 @@
+<MaterialAsset
+    AssetName="tile_underside"
+    materialDefinitionName="tile_underside">
+    <Material
+        Name="tile_underside"
+        mapTo="tile_underside">
+        <Material.Stages>
+            <Stages_beginarray
+                DiffuseMapAsset="ExampleModule:tile_underside_image"
+                NormalMapAsset="ExampleModule:tile_intermediate.normal_image"/>
+        </Material.Stages>
+    </Material>
+</MaterialAsset>

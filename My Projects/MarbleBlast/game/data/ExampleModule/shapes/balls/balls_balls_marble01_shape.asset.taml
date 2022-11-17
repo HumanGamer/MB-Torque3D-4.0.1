@@ -1,0 +1,5 @@
+<ShapeAsset
+    AssetName="balls_balls_marble01_shape"
+    fileName="@assetFile=marble01.dts"
+    constuctorFileName="@assetFile=marble01.tscript"
+    materialSlot0="@asset=ExampleModule:marble01.skin"/>

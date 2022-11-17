@@ -1,0 +1,18 @@
+Added Importing Asset
+   Asset Info: Name: marble01 | Type: ShapeAsset
+   File: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/balls/marble01.dts
+Preparing Shape for Import: marble01
+   Shape Info: Mesh Count: 1 | Material Count: 0 | Anim Count: 1
+Added Child Importing Asset to marble01_shape
+   Asset Info: Name: marble01skin | Type: MaterialAsset
+   File: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/balls/marble01.skin
+Preparing Material for Import: marble01.skin
+Error! Asset marble01_shape has an identically named asset in the target module.
+Asset marble01_shape was renamed due to Importing asset was duplicate of an existing asset as part of the Import Configuration
+Asset marble01_shape was renamed to balls_marble01_shape
+Asset balls_marble01_shape was renamed due to Importing asset was duplicate of an existing asset as part of the Import Configuration
+Asset balls_marble01_shape was renamed to balls_balls_marble01_shape
+Beginning importing of Shape Asset: balls_balls_marble01_shape
+Beginning creation of new TSShapeConstructor file: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/balls/marble01.tscript
+Finished creating shape constructor file to data/ExampleModule/shapes/balls/marble01.tscript
+Beginning importing of Material Asset: marble01.skin

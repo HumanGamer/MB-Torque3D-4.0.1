@@ -1,0 +1,14 @@
+<MaterialAsset
+    AssetName="tile_beginner"
+    materialDefinitionName="tile_beginner"
+    originalFilePath="D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/materials.tscript">
+    <Material
+        Name="tile_beginner"
+        mapTo="tile_beginner">
+        <Material.Stages>
+            <Stages_beginarray
+                DiffuseMapAsset="ExampleModule:tile_beginner_image"
+                NormalMapAsset="ExampleModule:tile_intermediate.normal_image"/>
+        </Material.Stages>
+    </Material>
+</MaterialAsset>

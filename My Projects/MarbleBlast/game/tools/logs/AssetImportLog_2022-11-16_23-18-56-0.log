@@ -1,0 +1,48 @@
+Added Importing Asset
+   Asset Info: Name: mbu_polysoup | Type: ShapeAsset
+   File: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/mbu_polysoup/mbu_polysoup.dae
+Preparing Shape for Import: mbu_polysoup
+   Shape Info: Mesh Count: 1 | Material Count: 0 | Anim Count: 7
+Added Child Importing Asset to mbu_polysoup_shape
+   Asset Info: Name: beam_side | Type: MaterialAsset
+   File: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/mbu_polysoup/beam_side
+Added Child Importing Asset to mbu_polysoup_shape
+   Asset Info: Name: edge_white | Type: MaterialAsset
+   File: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/mbu_polysoup/edge_white
+Added Child Importing Asset to mbu_polysoup_shape
+   Asset Info: Name: plate_1 | Type: MaterialAsset
+   File: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/mbu_polysoup/plate_1
+Added Child Importing Asset to mbu_polysoup_shape
+   Asset Info: Name: tile_advanced | Type: MaterialAsset
+   File: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/mbu_polysoup/tile_advanced
+Added Child Importing Asset to mbu_polysoup_shape
+   Asset Info: Name: tile_beginner | Type: MaterialAsset
+   File: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/mbu_polysoup/tile_beginner
+Added Child Importing Asset to mbu_polysoup_shape
+   Asset Info: Name: tile_intermediate | Type: MaterialAsset
+   File: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/mbu_polysoup/tile_intermediate
+Added Child Importing Asset to mbu_polysoup_shape
+   Asset Info: Name: tile_underside | Type: MaterialAsset
+   File: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/mbu_polysoup/tile_underside
+Preparing Material for Import: beam_side
+Preparing Material for Import: edge_white
+Preparing Material for Import: plate_1
+Preparing Material for Import: tile_advanced
+Preparing Material for Import: tile_beginner
+Preparing Material for Import: tile_intermediate
+Preparing Material for Import: tile_underside
+Error! Asset mbu_polysoup_shape has an identically named asset in the target module.
+Asset mbu_polysoup_shape was renamed due to Importing asset was duplicate of an existing asset as part of the Import Configuration
+Asset mbu_polysoup_shape was renamed to mbu_polysoup_mbu_polysoup_shape
+Asset mbu_polysoup_mbu_polysoup_shape was renamed due to Importing asset was duplicate of an existing asset as part of the Import Configuration
+Asset mbu_polysoup_mbu_polysoup_shape was renamed to mbu_polysoup_mbu_polysoup_mbu_polysoup_shape
+Beginning importing of Shape Asset: mbu_polysoup_mbu_polysoup_mbu_polysoup_shape
+Beginning creation of new TSShapeConstructor file: D:/Repositories/MarbleBlast/MB-Torque3D-4.0.1/My Projects/MarbleBlast/game/data/ExampleModule/shapes/mbu_polysoup/mbu_polysoup.tscript
+Finished creating shape constructor file to data/ExampleModule/shapes/mbu_polysoup/mbu_polysoup.tscript
+Beginning importing of Material Asset: beam_side
+Beginning importing of Material Asset: edge_white
+Beginning importing of Material Asset: plate_1
+Beginning importing of Material Asset: tile_advanced
+Beginning importing of Material Asset: tile_beginner
+Beginning importing of Material Asset: tile_intermediate
+Beginning importing of Material Asset: tile_underside

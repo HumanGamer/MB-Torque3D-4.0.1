@@ -12,3 +12,26 @@ singleton Material(DefaultMaterial8)
    Glow[0] = "1";
    Emissive[0] = "1";
 };
+
+singleton Material(DefaultMaterial)
+{
+   mapTo = "beam_side";
+   DiffuseMapAsset[0] = "ExampleModule:beam_side_image";
+   NormalMapAsset[0] = "ExampleModule:beam.normal_image";
+};
+
+singleton Material(DefaultMaterial5)
+{
+   mapTo = "tile_beginner";
+   DiffuseMapAsset[0] = "ExampleModule:tile_beginner_image";
+   NormalMapAsset[0] = "ExampleModule:tile_intermediate.normal_image";
+};
+
+singleton Material(DefaultMaterial8)
+{
+   mapTo = "marble01.skin";
+   DiffuseMapAsset[0] = "ExampleModule:marble01.skin_image";
+   translucentBlendOp = "LerpAlpha";
+   translucentZWrite = "1";
+   alphaRef = "20";
+};

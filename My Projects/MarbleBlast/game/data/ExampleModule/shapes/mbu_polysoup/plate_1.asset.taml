@@ -1,0 +1,13 @@
+<MaterialAsset
+    AssetName="plate_1"
+    materialDefinitionName="plate_1">
+    <Material
+        Name="plate_1"
+        mapTo="plate_1">
+        <Material.Stages>
+            <Stages_beginarray
+                DiffuseMapAsset="ExampleModule:plate_1_image"
+                NormalMapAsset="ExampleModule:plate.normal_image"/>
+        </Material.Stages>
+    </Material>
+</MaterialAsset>

@@ -74,9 +74,7 @@ new Scene(PolysoupLevel) {
       };
    };
    new TSStatic() {
-      ShapeAsset = "ExampleModule:mbu_polysoup_shape";
-      collisionType = "Visible Mesh";
-      decalType = "Visible Mesh";
+      ShapeAsset = "ExampleModule:mbu_polysoup_mbu_polysoup_mbu_polysoup_shape";
       position = "0 0 17.5055";
    };
 };

@@ -1,0 +1,13 @@
+<MaterialAsset
+    AssetName="tile_advanced"
+    materialDefinitionName="tile_advanced">
+    <Material
+        Name="tile_advanced"
+        mapTo="tile_advanced">
+        <Material.Stages>
+            <Stages_beginarray
+                DiffuseMapAsset="ExampleModule:tile_advanced_image"
+                NormalMapAsset="ExampleModule:tile_intermediate.normal_image"/>
+        </Material.Stages>
+    </Material>
+</MaterialAsset>

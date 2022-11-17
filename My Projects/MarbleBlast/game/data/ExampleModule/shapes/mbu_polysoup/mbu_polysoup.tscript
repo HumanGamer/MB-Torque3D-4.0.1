@@ -26,3 +26,15 @@ new TSShapeConstructor(CubePrimitive_fbx) {
    canSaveDynamicFields = "1";
 };
 //--- OBJECT WRITE END ---
+
+singleton TSShapeConstructor(mbu_polysoupdae)
+{
+   baseShapeAsset = "ExampleModule:mbu_polysoup_mbu_polysoup_mbu_polysoup_shape";
+   singleDetailSize = "0";
+   neverImportMat = "DefaultMaterial	ColorEffect*";
+   flipUVCoords = "0";
+   JoinIdenticalVerts = "0";
+   reverseWindingOrder = "0";
+   removeRedundantMats = "0";
+   animFPS = "2";
+};

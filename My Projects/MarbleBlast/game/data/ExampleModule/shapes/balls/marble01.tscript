@@ -26,3 +26,15 @@ new TSShapeConstructor(CubePrimitive_fbx) {
    canSaveDynamicFields = "1";
 };
 //--- OBJECT WRITE END ---
+
+singleton TSShapeConstructor(marble01dts)
+{
+   baseShapeAsset = "ExampleModule:balls_balls_marble01_shape";
+   singleDetailSize = "0";
+   neverImportMat = "DefaultMaterial	ColorEffect*";
+   flipUVCoords = "0";
+   JoinIdenticalVerts = "0";
+   reverseWindingOrder = "0";
+   removeRedundantMats = "0";
+   animFPS = "2";
+};
